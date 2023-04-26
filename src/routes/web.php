@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\HelloMiddleware;
+use App\Mail\TestMail;
+use app\Http\Controllers\Mail\MailController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,3 +56,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//メール送信確認ルーディング
+Route::get('/index', 'TestMailController@index');
+Route::get('/test', 'TestMailController@send');
+
+//Route::get('/mail', function (){
+//        return new \App\Mail\TestMail();
+//        });
