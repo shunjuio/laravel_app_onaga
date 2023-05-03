@@ -1,8 +1,7 @@
-version: '3'
+version: '3.8'
 services:
   nginx:
     image: nginx:1.17-alpine # nginxのimageにnginx:1.17-alpineを指定
-    container_name: "nginx"
     ports:
       - "8080:80" # ホストの8080ポートでnginxコンテナの80にアクセス
     volumes:
@@ -12,17 +11,16 @@ services:
       - php-fpm # php-fpmの起動後にnginxを起動
   php-fpm:
     build: ./docker/php # ./docker/php/Dockerfileをbuildしてイメージ作成
-    container_name: "php-fpm"
     volumes:
-      - ./src:/var/www # ホストのsrcをphp-fpmコンテナの/var/wwwにマウント
+      - .:/var/www # ホストのsrcをphp-fpmコンテナの/var/wwwにマウント
     links: # コンテナと他のサービスを繋げる
       - db
     depends_on:
       - db # dbの起動後にphp-fpmを起動
   db:
     volumes:
-      - ./docker/mysql/conf.d:/etc/mysql/conf.d # mysqlのせってファイルをマウント
-      - ./docker/mysql/data:/var/lib/mysql # mysqlのデータ永続化
+      - ./docker/mysql/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf # mysqlのせってファイルをマウント
+      - mysql-volume:/var/lib/mysql # mysqlのデータ永続化
     platform: linux/x86_64
     image: mysql:5.7
     container_name: laravel_db
@@ -38,11 +36,10 @@ services:
 
   db-testing:
     volumes:
-      - ./docker/db-test/conf.d:/etc/mysql/conf.d # mysqlのせってファイルをマウント
+      - ./docker/db-test/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf # mysqlのせってファイルをマウント
 #      - ./docker/db-test/data:/var/lib/mysql # mysqlのデータ永続化
     platform: linux/x86_64
     image: mysql:5.7
-    container_name: laravel_test_db
     ports:
       - 3033:3306
     environment:
@@ -52,3 +49,5 @@ services:
       MYSQL_ROOT_PASSWORD: root
       TZ: "Asia/Tokyo"
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+volumes:
+  mysql-volume:

@@ -13,17 +13,12 @@ use App\Jobs\SendTestMailJob;
 class TestMailController extends Controller
 {
 
-//    public function index()
+//    public function send()
 //    {
-//
-//    }
-
-    public function send()
-    {
 //        Mail::to('test@example.com')
 //            ->send(new TestMail());
 
 //        SendTestMailJob::dispatch();
 
-    }
+//    }
 }
