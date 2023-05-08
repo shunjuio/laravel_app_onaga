@@ -12,7 +12,7 @@ services:
   php-fpm:
     build: ./docker/php # ./docker/php/Dockerfileをbuildしてイメージ作成
     volumes:
-      - .:/var/www # ホストのsrcをphp-fpmコンテナの/var/wwwにマウント
+      - ./src:/var/www # ホストのsrcをphp-fpmコンテナの/var/wwwにマウント
     links: # コンテナと他のサービスを繋げる
       - db
     depends_on:
@@ -23,7 +23,6 @@ services:
       - mysql-volume:/var/lib/mysql # mysqlのデータ永続化
     platform: linux/x86_64
     image: mysql:5.7
-    container_name: laravel_db
     ports:
       - 3333:3306
     environment:

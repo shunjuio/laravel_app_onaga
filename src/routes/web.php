@@ -61,6 +61,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/index', 'TestMailController@index');
 Route::get('/test', 'TestMailController@send');
 
-//Route::get('/mail', function (){
-//        return new \App\Mail\TestMail();
-//        });
+//api関連ルーディング
+Route::get('/api', 'ApiController@index')->name('api.index');
+Route::post('/post', 'ApiController@store')->name('post.store');
+Route::get('/post/create', 'ApiController@create')->name('post.create');
+
+Route::post('/comment', 'ApiController@commentStore')->name('comment.store');
+Route::get('/comment/create', 'ApiController@commentCreate')->name('comment.create');
+
+
+//Route::get('/users/{userId}/items/{itemId}/comments/{commentId}/likes',)->name('user.item.comment.like');
+
